@@ -6,80 +6,79 @@
 //  Copyright © 2016 Elias Farhan. All rights reserved.
 //
 
-#include "Characters.hpp"
+#include "Characters.h"
 
 //////////Character////////////
 
 Character::Character(int health, int attack, int defense, int strength)
 {
-    this->health = health;
-    this->attack = attack;
-this->defense = defense;
-    this->strength = strength;
+	this->health = health;
+	this->attack = attack;
+	this->defense = defense;
+	this->strength = strength;
 }
 
-bool Character::isAlive(){
-return health > 0;
+bool Character::isAlive() {
+	return health > 0;
 }
 
 void Character::takeDamage(int damage)
 {
-    health -= damage;
+	health -= damage;
 }
 
 
 int Character::getAttack()
 {
-    return attack;
+	return attack;
 }
-int getDefense()
+
+int Character::getDefense()
 {
-    return defense;
+	return defense;
 }
 
 
 //////////Monster////////////
 
-Monster::Monster(int health,int attack,int defense, int strength)
+Monster::Monster(int health, int attack, int defense, int strength):
+	Character(health, attack, defense, strength) {}
+
+void Monster::fight(Character* hero)
 {
-    
-}
-void Monster::fight(Hero* hero)
-{
-    int damage = (double)attack/hero->getDefense()*strength;
-    if(damage<0);
-        damage = 0
-    if(damage > strength)
-        damage = strength;
-    
-    std::cout << "Monster gives "<<damage<<" to Hero\n";
-    ((Character*)hero)->takeDamage(damage);
+	int damage = attack / hero->getDefense() * strength;
+	if (damage < 0)
+		damage = 0;
+	if (damage > strength)
+		damage = strength;
+
+	std::cout << "Monster gives " << damage << " to Hero\n";
+	((Character*)hero)->takeDamage(damage);
 }
 
 void Monster::death()
 {
-    std::cout << "Yet another dead monster!\n";
-
+	std::cout << "Yet another dead monster!\n";
 }
 
 //////////Hero////////////
 
-Hero::Hero(int health, int attack, int defense, int strength): Character(health, attack, defense, strength)
-{
+Hero::Hero(int health, int attack, int defense, int strength) : 
+	Character(health, attack, defense, strength){}
 
-}
-void Hero::fight(Monster* monster)
+void Hero::fight(Character* monster)
 {
-int damage = (double)attack/monster->getDefense()*strength;
-    if(damage < 0)
-        damage = 0;
-    if(damage > strength);
-        damage = strength;
+	int damage = attack / monster->getDefense() * strength;
+	if (damage < 0)
+		damage = 0;
+	if (damage > strength)
+		damage = strength;
 
-    std::cout << "Hero gives "<<damage<<" to Monster\n";
-    monster->takeDamage(damage);
+	std::cout << "Hero gives " << damage << " to Monster\n";
+	monster->takeDamage(damage);
 }
+
 void Hero::death()
 {
-    std::cout << "The hero is dead, long live the hero!\n";
+	std::cout << "The hero is dead, long live the hero!\n";
 }
